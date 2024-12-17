@@ -1,0 +1,23 @@
+import React from 'react'
+import { imgPath } from '../../helpers/functions-general'
+
+const Processing = () => {
+  return (
+    <div className="max-w-[600px] w-full bg-white rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden">
+            <div className="madal-main h-[60vh] w-full flex justify-center items-center">
+              <div className="flex flex-col items-center">
+                <img
+                  src={`${imgPath}/jollibeelogo.png`}
+                  alt=""
+                  className="mx-auto mb-5 w-[90px]"
+                />
+
+
+                <h2>Processing Order. Please wait...</h2>
+              </div>
+            </div>
+          </div>
+  )
+}
+
+export default Processing
