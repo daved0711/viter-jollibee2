@@ -1,25 +1,34 @@
-import React from 'react'
-import { menus } from '../menu-data';
+import React from "react";
+import { menus } from "../menu-data";
+import { getFoodByCategory } from "./function";
 
-const DashboardCard = ({title = "", filterby = "", }) => {
-
-    const getCardDetails = menus.filter((item) => item.menu_category === filterby);
-    const getActiveMenu = getCardDetails.filter((item) => item.menu_is_active === true);
+const DashboardCard = ({ item, dataFood }) => {
+  const foodItem = getFoodByCategory(item.category_aid, dataFood);
+  const activeFood = foodItem
+    ?.filter((item) => item.food_is_active == 1)
+    .reduce((prev, cur) => prev + 1, 0);
+  const inactiveFood = foodItem
+    ?.filter((item) => item.food_is_active == 0)
+    .reduce((prev, cur) => prev + 1, 0);
     
+//   console.log(dataFood);
   return (
     <div className="card bg-secondary p-4 rounded-md border border-line">
-        <small>{title}</small>
-            <h2 className="text-4xl mt-1 mb-2">{getCardDetails.length}</h2>
-                <ul className="flex gap-5 items-center">
-                    <li className="flex items-center gap-2">
-                        <span className="size-2 rounded-full bg-success block"></span>{getActiveMenu.length} active
-                    </li>
-                    <li className="flex items-center gap-2">
-                        <span className="size-2 rounded-full bg-gray-200 block"></span>{getCardDetails.length - getActiveMenu.length} inactive
-                    </li>
-                </ul>
+      <small>{item.category_title}</small>
+      <h2 className="text-4xl mt-1 mb-2">{activeFood}</h2>
+      <ul className="flex gap-5 items-center">
+        <li className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-success block"></span>
+          {activeFood}Active
+        </li>
+        <li className="flex items-center gap-2">
+          <span className="size-2 rounded-full bg-gray-200 block"></span>
+          {inactiveFood}
+          inactive
+        </li>
+      </ul>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardCard
+export default DashboardCard;

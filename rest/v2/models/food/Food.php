@@ -53,6 +53,68 @@ class Food
     }
     return $query;
   }
+  public function search()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblCategory} as usersCategory, ";
+      $sql .= "{$this->tblFood} as usersFood ";
+      $sql .= "where usersFood.food_title like :food_title ";
+      $sql .= "and usersCategory.category_aid = usersFood.food_category_id ";
+      $sql .= "order by food_is_active desc, ";
+      $sql .= "food_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "food_title"=> "%{$this->food_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function filterActive()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblCategory} as usersCategory, ";
+      $sql .= "{$this->tblFood} as usersFood ";
+      $sql .= "where food_is_active = :food_is_active ";
+      $sql .= "and usersCategory.category_aid = usersFood.food_category_id ";
+      $sql .= "order by food_is_active desc, ";
+      $sql .= "food_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "food_is_active" => $this->food_is_active,
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function filterActiveSearch()
+  {
+    try {
+      $sql = "select * from {$this->tblFood} ";
+      $sql .= "where food_is_active = :food_is_active ";
+      $sql .= "and food_title like :food_title ";
+      $sql .= "order by food_is_active desc, ";
+      $sql .= "food_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "food_is_active" => $this->food_is_active,
+        "food_title" => "%{$this->food_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+
   public function readAllByCategoryId()
   {
     try {
@@ -146,20 +208,20 @@ class Food
     return $query;
   }
 
-  public function checkName()
-  {
-    try {
-      $sql = "select food_title from {$this->tblFood} ";
-      $sql .= "where food_title = :food_title ";
-      $query = $this->connection->prepare($sql);
-      $query->execute([
-        "food_title" => "{$this->food_title}",
-      ]);
-    } catch (PDOException $ex) {
-      $query = false;
-    }
-    return $query;
-  }
+  // public function checkName()
+  // {
+  //   try {
+  //     $sql = "select food_title from {$this->tblFood} ";
+  //     $sql .= "where food_title = :food_title ";
+  //     $query = $this->connection->prepare($sql);
+  //     $query->execute([
+  //       "food_title" => "{$this->food_title}",
+  //     ]);
+  //   } catch (PDOException $ex) {
+  //     $query = false;
+  //   }
+  //   return $query;
+  // }
 
   public function update()
   {

@@ -89,7 +89,7 @@ export const menus = [
   },
   {
     menu_aid: 12,
-    menu_title: "1x  Yumburger",
+    menu_title: "1x Yumburger",
     menu_category: "Burger",
     menu_price: "47",
     menu_image: "burger-1.webp",
@@ -97,7 +97,7 @@ export const menus = [
   },
   {
     menu_aid: 13,
-    menu_title: "1x  Yumburger, 1x Fries",
+    menu_title: "1x Yumburger, 1x Fries",
     menu_category: "Burger",
     menu_price: "175",
     menu_image: "burger-2.webp",

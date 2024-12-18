@@ -1,43 +1,110 @@
-import React from "react";
-import LoadMore from "../partials/LoadMore";
-import { Archive, ArchiveRestore, FilePenLine, Trash2 } from "lucide-react";
-import IconServerError from "../partials/IconServerError";
-import TableLoader from "../partials/TableLoader";
-import IconNoData from "../partials/IconNoData";
-import SpinnerTable from "../partials/spinners/SpinnerTable";
-import Pills from "../partials/Pills";
-import { StoreContext } from "@/components/store/storeContext";
+import { queryDataInfinite } from "@/components/helpers/queryDataInfinite";
+import SearchBarWithFilterStatus from "@/components/partials/SearchBarWithFilterStatus";
+import Status from "@/components/partials/Status";
+import ModalArchive from "@/components/partials/modal/ModalArchive";
+import ModalRestore from "@/components/partials/modal/ModalRestore";
 import {
   setIsAdd,
-  setIsConfirm,
+  setIsArchive,
   setIsDelete,
-  setIsEdit,
+  setIsRestore,
 } from "@/components/store/storeAction";
+import { StoreContext } from "@/components/store/storeContext";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
+import { FaArchive, FaEdit, FaTrash, FaTrashRestoreAlt } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
+import IconNoData from "../partials/IconNoData";
+import IconServerError from "../partials/IconServerError";
+import LoadMore from "../partials/LoadMore";
+import TableLoader from "../partials/TableLoader";
 import ModalDelete from "../partials/modals/ModalDelete";
-import ModalConfirm from "../partials/modals/ModalConfirm";
-import { menus } from "../menu-data";
 
 const AdvertisementTable = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isActive, setIsActive] = React.useState(0);
+  const [id, setIsId] = React.useState("");
+  const [isFilter, setIsFilter] = React.useState(false);
+  const [onSearch, setOnSearch] = React.useState(false);
+  const [statusFilter, setStatusFilter] = React.useState("");
+  const search = React.useRef({ value: "" });
+  const [page, setPage] = React.useState(1);
+  const { ref, inView } = useInView();
 
   let counter = 1;
 
-  const handleDelete = () => {
+  const handleDelete = (item) => {
     dispatch(setIsDelete(true));
+    setIsId(item.advertisement_aid);
   };
-  const handleRestore = () => {
-    dispatch(setIsConfirm(true));
+  const handleRestore = (item) => {
+    dispatch(setIsRestore(true));
+    setIsId(item.advertisement_aid);
   };
-  const handleArchive = () => {
-    dispatch(setIsConfirm(true));
+  const handleArchive = (item) => {
+    dispatch(setIsArchive(true));
+    setIsId(item.advertisement_aid);
   };
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
 
+  const {
+    data: result,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["advertisement", onSearch, isFilter, statusFilter],
+    queryFn: async ({ pageParam = 1 }) =>
+      await queryDataInfinite(
+        "/v2/advertisement/search", //search or filter endpoint
+        `/v2/advertisement/page/${pageParam}`, //page api/endpoint
+        isFilter || store.isSearch, //search boolean
+        {
+          statusFilter,
+          isFilter,
+          searchValue: search?.current.value,
+          id: "",
+        } //payload
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total) {
+        return lastPage.page + lastPage.count;
+      }
+
+      return;
+    },
+    refetchOnWindowFocus: false,
+  });
+  React.useEffect(() => {
+    if (inView) {
+      setPage((prev) => prev + 1);
+      fetchNextPage();
+    }
+  }, [inView]);
+
   return (
     <>
+      <div>
+        <SearchBarWithFilterStatus
+          search={search}
+          dispatch={dispatch}
+          store={store}
+          result={result}
+          isFetching={isFetching}
+          setOnSearch={setOnSearch}
+          onSearch={onSearch}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          setIsFilter={setIsFilter}
+        />
+      </div>
       <div className="mt-10 bg-secondary rounded-md p-4 border border-line relative">
         {/* <SpinnerTable/> */}
         <div className="table-wrapper custom-scroll">
@@ -48,88 +115,138 @@ const AdvertisementTable = ({ setItemEdit }) => {
                 <th>#</th>
                 <th>Status</th>
                 <th className="w-[50%]">Title</th>
-                <th></th>
+                <th>Advertisement Img</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {/* <tr>
-                              <td colSpan={100}>
-                                <IconNoData/>
-                              </td>
-                            </tr> */}
-              {/* <tr>
-                              <td colSpan={100}>
-                                <IconServerError/>
-                              </td>
-                            </tr> */}
-              {menus.map((item, key) => (
-                <tr key={key}>
-                  <td>{counter++}</td>
-                  <td>
-                    <Pills />
-                  </td>
-                  <td>{item.menu_title}</td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <ul className="table-action ">
-                      {true ? (
-                        <>
-                          <li>
-                            <button
-                              className="tooltip"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FilePenLine />
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="tooltip"
-                              data-tooltip="Archive"
-                              onClick={() => handleArchive()}
-                            >
-                              <Archive />
-                            </button>
-                          </li>
-                        </>
-                      ) : (
-                        <>
-                          <li>
-                            <button
-                              className="tooltip"
-                              data-tooltip="Restore"
-                              onClick={() => handleRestore()}
-                            >
-                              <ArchiveRestore />
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="tooltip"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete()}
-                            >
-                              <Trash2 />
-                            </button>
-                          </li>
-                        </>
-                      )}
-                    </ul>
+              {(status === "pending" || result?.pages[0].data.length === 0) && (
+                <tr>
+                  <td colSpan="100%" className="p-10">
+                    {status === "pending" ? (
+                      <TableLoader cols={2} count={20} />
+                    ) : (
+                      <IconNoData />
+                    )}
                   </td>
                 </tr>
+              )}
+              {error && (
+                <tr>
+                  <td colSpan="100%">
+                    <IconServerError />
+                  </td>
+                </tr>
+              )}
+              {/* Result */}
+              {result?.pages.map((page, pageKey) => (
+                <React.Fragment key={pageKey}>
+                  {page.data.map((item, key) => {
+                    return (
+                      <tr key={key} className="group relative cursor-pointer">
+                        <td className="text-center">{counter++}</td>
+                        <td>
+                          {item.advertisement_is_active ? (
+                            <Status text={"Active"} />
+                          ) : (
+                            <Status text={"Inactive"} />
+                          )}
+                        </td>
+                        <td>{item.advertisement_title}</td>
+                        <td>{item.advertisement_image}</td>
+                        <td
+                          colSpan="100%"
+                          className="opacity-0 group-hover:opacity-100"
+                        >
+                          <div className="flex items-center justify-end gap-2 mr-4">
+                            {item.advertisement_is_active == 1 ? (
+                              <>
+                                <button
+                                  type="button"
+                                  className="tooltip"
+                                  data-tooltip="Edit"
+                                  disabled={isFetching}
+                                  onClick={() => handleEdit(item)}
+                                >
+                                  <FaEdit />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="tooltip"
+                                  data-tooltip="Archive"
+                                  disabled={isFetching}
+                                  onClick={() => handleArchive(item)}
+                                >
+                                  <FaArchive />
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  type="button"
+                                  className="tooltip"
+                                  data-tooltip="Restore"
+                                  disabled={isFetching}
+                                  onClick={() => handleRestore(item)}
+                                >
+                                  <FaTrashRestoreAlt />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="tooltip"
+                                  data-tooltip="Delete"
+                                  disabled={isFetching}
+                                  onClick={() => handleDelete(item)}
+                                >
+                                  <FaTrash />
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
-          {/* <LoadMore /> */}
+          <div className="pb-10 flex items-center justify-center text-white">
+            <LoadMore
+              fetchNextPage={fetchNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              hasNextPage={hasNextPage}
+              result={result?.pages[0]}
+              setPage={setPage}
+              page={page}
+              refView={ref}
+            />
+          </div>
         </div>
       </div>
-      {store.isDelete && <ModalDelete />}
-      {store.isConfirm && <ModalConfirm />}
-      {store.isView && <ModalViewMovie movieInfo={movieInfo} />}
+      {/* {store.isDelete && <ModalDelete/>} */}
+      {store.isDelete && (
+        <ModalDelete
+          mysqlApiDelete={`/v2/advertisement/${id}`}
+          queryKey="advertisement"
+        />
+      )}
+      {store.isArchive && (
+        <ModalArchive
+          setIsArchive={setIsArchive}
+          mysqlEndpoint={`/v2/advertisement/active/${id}`}
+          queryKey={"advertisement"}
+        />
+      )}
+
+      {store.isRestore && (
+        <ModalRestore
+          setIsRestore={setIsRestore}
+          mysqlEndpoint={`/v2/advertisement/active/${id}`}
+          queryKey={"advertisement"}
+        />
+      )}
     </>
   );
 };

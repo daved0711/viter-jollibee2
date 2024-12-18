@@ -30,6 +30,7 @@ const CategoryTable = ({ setItemEdit, setIsCategoryEdit, isCategoryEdit }) => {
   const search = React.useRef({ value: "" });
   const [page, setPage] = React.useState(1);
   const { ref, inView } = useInView();
+
   let counter = 1;
 
   const handleDelete = (item) => {
@@ -160,7 +161,7 @@ const CategoryTable = ({ setItemEdit, setIsCategoryEdit, isCategoryEdit }) => {
                             {item.category_is_active ? (
                               <Status text={"Active"} />
                             ) : (
-                              <Status text={"Inacive"} />
+                              <Status text={"Inactive"} />
                             )}
                           </td>
                           <td>{item.category_title}</td>

@@ -2,14 +2,6 @@
 
 
 
-
-function checkReadAllByCategoryId($object)
-{
-    $query = $object->readAllByCategoryId();
-    checkQuery($query, "Empty records. (read All by category)");
-    return $query;
-}
-
 // Read active
 function checkFilterActive($object)
 {
@@ -22,5 +14,12 @@ function checkFilterActiveSearch($object)
 {
     $query = $object->filterActiveSearch();
     checkQuery($query, "Empty records. (filter active search)");
+    return $query;
+}
+// Read active Advertisement
+function checkReadAllActiveAdvertisement($object)
+{
+    $query = $object->readAllActiveAdvertisement();
+    checkQuery($query, "Empty records. (read all active advertisement)");
     return $query;
 }

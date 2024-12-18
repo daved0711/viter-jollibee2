@@ -19,7 +19,6 @@ const SearchBarWithFilterStatus = ({
   const handleChange = (e) => {
     if (e.target.value === "") {
       setOnSearch(!onSearch);
-      z;
       dispatch(setIsSearch(false));
     }
   };
@@ -28,7 +27,7 @@ const SearchBarWithFilterStatus = ({
     e.preventDefault();
     let val = search.current.value;
 
-    if (val === " " || val === "") {
+    if (val === "" || val === "") {
       setOnSearch(!onSearch);
       dispatch(setIsSearch(false));
       dispatch(setError(true));
@@ -39,6 +38,7 @@ const SearchBarWithFilterStatus = ({
     }
   };
   const handleChangeStatus = (e, setStatusFilter) => {
+    search.current.value ="";
     setStatusFilter(e.target.value);
     setIsFilter(false);
     if (e.target.value !== "") {

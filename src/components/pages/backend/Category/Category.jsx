@@ -21,9 +21,6 @@ const Category = () => {
     setIsCategoryEdit(null);
   };
 
-  // const handleAdd = () => {
-  //   dispatch(setIsAdd(true));
-  // }
   return (
     <>
       <section className="layout-main">
@@ -33,7 +30,7 @@ const Category = () => {
             <Header title="Category" subtitle="Manage Kiosk Category" />
             <div className="p-8">
               <div className="flex justify-between items-center">
-              <div></div>
+                <div></div>
                 <button className="btn btn-add" onClick={handleAdd}>
                   <Plus size={16} /> Add New
                 </button>

@@ -23,31 +23,34 @@ const  Advertisement = () => {
     }
   return (
     <>
-    <section className="layout-main">
-            <div className="layout-division">
-            <SideNavigation menu="advertisement"/>
-                <main>
-                    <Header title="" subtitle="Manage s"/>
-                    <div className="p-8">
-                      <div className="flex justify-between items-center">
-                        <SearchBar/>
-                        <button className="btn btn-add" onClick={handleAdd}>
-                          <Plus size={16}/> Add New
-                        </button>
-                      </div>
-                      <Table setItemEdit={setItemEdit}/>
-                    </div>
-                    <Footer/>
-                </main>
+      <section className="layout-main">
+        <div className="layout-division">
+          <SideNavigation menu="advertisement" />
+          <main>
+            <Header title="" subtitle="Manage s" />
+            <div className="p-8">
+              <div className="flex justify-between items-center">
+               <div></div>
+                <button className="btn btn-add" onClick={handleAdd}>
+                  <Plus size={16} /> Add New
+                </button>
+              </div>
+              <Table setItemEdit={setItemEdit} itemEdit={itemEdit} />
             </div>
-        </section>
-        {store.validate && <ModalValidation/>}
-        {store.error && <ModalError/>}
-      {store.success && <ToastSuccess/>}
-        {/* <SpinnerWindow/> */}
-        {store.isAdd && <ModalAdd itemEdit={itemEdit}/>}
+            <Footer />
+          </main>
+        </div>
+      </section>
+      {store.validate && <ModalValidation />}
+      {store.error && <ModalError />}
+      {store.success && <ToastSuccess />}
+      {/* <SpinnerWindow/> */}
+      {store.isAdd && (
+        <ModalAdd itemEdit={itemEdit}
+         setItemEdit={setItemEdit} />
+      )}
     </>
-  )
+  );
 }
 
 export default Advertisement
