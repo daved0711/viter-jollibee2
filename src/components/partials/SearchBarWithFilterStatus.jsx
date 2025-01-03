@@ -45,6 +45,11 @@ const SearchBarWithFilterStatus = ({
       setIsFilter(true);
     }
   };
+console.log()
+//Pang count ng 
+  const resultCount = result?.pages[0]?.total
+    ? result?.pages[0]?.total
+    : result?.pages[0]?.count;
   return (
     <form
       onSubmit={(e) => {
@@ -69,7 +74,7 @@ const SearchBarWithFilterStatus = ({
             <FaList />
             <span>
               {""}
-              {isFetching ? "Searching..." : result?.pages[0].count}
+              {isFetching ? "Searching..." : resultCount}
             </span>
           </p>
         </div>

@@ -19,7 +19,7 @@ import { imgPath } from "@/components/helpers/functions-general";
 
 const ModalAddAdvertisement = ({ itemEdit }) => {
   const { dispatch } = React.useContext(StoreContext);
-  const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("");
+ const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("/v2/upload-photo");
   const [value, setValue] = React.useState("");
 
   const handleClose = () => {

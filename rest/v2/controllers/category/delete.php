@@ -11,7 +11,8 @@ if (array_key_exists("categoryid", $_GET)) {
   // get data
   $category->category_aid = $_GET['categoryid'];
   checkId($category->category_aid);
-  
+  isAssociated($category);
+
 
   $query = checkDelete($category);
 

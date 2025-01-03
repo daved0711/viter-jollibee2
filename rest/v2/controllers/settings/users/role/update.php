@@ -25,7 +25,8 @@ checkId($role->role_aid);
 
   // update
   $query = checkUpdate($role);
-  checkUpdateColumnName($role,$role->role_name,$role_name_old);
+  checkAddColumn($role, strtolower($role->role_name));
+  checkUpdateColumnValue($role, strtolower($role->role_name),strtolower($role_name_old));
   returnSuccess($role, "role", $query);
 }
 

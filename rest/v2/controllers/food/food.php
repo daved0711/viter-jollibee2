@@ -3,7 +3,7 @@
 require '../../core/header.php';
 // use needed functions
 require '../../core/functions.php';
-// require 'functions.php';
+require 'functions.php';
 // use needed classes
 require '../../models/food/Food.php';
 // get payload

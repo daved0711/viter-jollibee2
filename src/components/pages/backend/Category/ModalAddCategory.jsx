@@ -19,7 +19,7 @@ import { imgPath } from "@/components/helpers/functions-general";
 
 const ModalAddCategory = ({ isCategoryEdit, setIsCategoryEdit }) => {
   const { dispatch } = React.useContext(StoreContext);
-  const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("");
+  const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("/v2/upload-photo");
   const [value, setValue] = React.useState("");
 
   const handleClose = () => {
@@ -59,9 +59,11 @@ const ModalAddCategory = ({ isCategoryEdit, setIsCategoryEdit }) => {
   });
 
   const initVal = {
-    category_aid: isCategoryEdit ? isCategoryEdit.category_aid : "",
+    // category_aid: isCategoryEdit ? isCategoryEdit.category_aid : "",
     category_image: isCategoryEdit ? isCategoryEdit.category_image : "",
     category_title: isCategoryEdit ? isCategoryEdit.category_title : "",
+
+    category_title_old: isCategoryEdit ? isCategoryEdit.category_title : "",
   };
 
   const yupSchema = Yup.object({

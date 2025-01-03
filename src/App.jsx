@@ -1,20 +1,15 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Welcome from "./components/pages/frontend/Welcome";
-import Order from "./components/pages/frontend/Order";
-import Advertisement from "./components/pages/backend/advertisement/Advertisement";
-import { StoreProvider } from "./components/store/storeContext";
-import Food from "./components/pages/backend/foods/Food";
-import Category from "./components/pages/backend/Category/Category";
-import Dashboard from "./components/pages/backend/dashboard/Dashboard";
-import Login from "./components/pages/backend/access/Login";
-import SetPassword from "./components/pages/backend/access/SetPassword";
-import ForgotPassword from "./components/pages/backend/access/ForgotPassword";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Settings from "./components/pages/backend/settings/Settings";
-import Role from "./components/pages/backend/settings/role/Role";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import ForgotPassword from "./components/pages/backend/access/ForgotPassword";
+import Login from "./components/pages/backend/access/DeveloperLogin";
+import SetPassword from "./components/pages/backend/access/SetPassword";
+import Order from "./components/pages/frontend/Order";
+import Welcome from "./components/pages/frontend/Welcome";
+import { StoreProvider } from "./components/store/storeContext";
 import { routeAdmin } from "./routes/routesAdmin";
 import { routeDeveloper } from "./routes/RoutesDeveloper";
+import DeveloperCreatePassword from "./components/pages/backend/access/create-password/DeveloperCreatePassword";
+import DeveloperLogin from "./components/pages/backend/access/DeveloperLogin";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -44,6 +39,11 @@ const App = () => {
             <Route path="/admin/advertisement" element={<Advertisement />} />
             <Route path="/admin/foods" element={<Food />} />
             <Route path="/admin/category" element={<Category />} /> */}
+            <Route
+              path="/developer/create-password"
+              element={<DeveloperCreatePassword />}
+            />
+            <Route path="/developer/login" element={<DeveloperLogin/>} />
 
             <Route path="/admin/login" element={<Login />} />
             <Route path="/admin/set-password" element={<SetPassword />} />

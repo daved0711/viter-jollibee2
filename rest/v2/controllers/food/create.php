@@ -18,7 +18,7 @@ $food->food_created = date("Y-m-d H:i:s");
 $food->food_datetime = date("Y-m-d H:i:s");
 
 //checks newly added data if it already exists
-// isNameExist($food, $food->food_title);
+isNameExist($food, $food->food_title);
 
 
 $query = checkCreate($food);

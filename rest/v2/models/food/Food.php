@@ -208,20 +208,20 @@ class Food
     return $query;
   }
 
-  // public function checkName()
-  // {
-  //   try {
-  //     $sql = "select food_title from {$this->tblFood} ";
-  //     $sql .= "where food_title = :food_title ";
-  //     $query = $this->connection->prepare($sql);
-  //     $query->execute([
-  //       "food_title" => "{$this->food_title}",
-  //     ]);
-  //   } catch (PDOException $ex) {
-  //     $query = false;
-  //   }
-  //   return $query;
-  // }
+  public function checkName()
+  {
+    try {
+      $sql = "select food_title from {$this->tblFood} ";
+      $sql .= "where food_title = :food_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "food_title" => "{$this->food_title}",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
 
   public function update()
   {

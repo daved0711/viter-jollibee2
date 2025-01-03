@@ -165,6 +165,21 @@ class Category
     }
     return $query;
   }
+  
+  public function checkAssociation()
+  {
+    try {
+      $sql = "select category_aid from {$this->tblCategory} ";
+      $sql .= "where category_aid = :category_aid ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "category_aid" => "{$this->category_aid}",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
 
   public function update()
   {

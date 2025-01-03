@@ -2,7 +2,7 @@ import { Trash2, X } from 'lucide-react'
 import React from 'react'
 import ModalWrapper from './ModalWrapper'
 import SpinnerButton from '../spinners/SpinnerButton'
-import { setIsAdd, setIsDelete, setMessage, setSuccess, setValidate } from '@/components/store/storeAction'
+import { setError, setIsAdd, setIsDelete, setMessage, setSuccess, setValidate } from '@/components/store/storeAction'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { StoreContext } from '@/components/store/storeContext'
 import { queryData } from '@/components/helpers/queryData'
@@ -19,7 +19,7 @@ const ModalDelete = ({mysqlApiDelete, queryKey}) => {
         queryClient.invalidateQueries({ queryKey: [queryKey] });
         handleClose();
         if (!data.success) {
-          dispatch(setValidate(true));
+          dispatch(setError(true));
           dispatch(setMessage(data.error));
         } else {
           dispatch(setIsDelete(false));

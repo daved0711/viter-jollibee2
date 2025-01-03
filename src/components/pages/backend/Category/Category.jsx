@@ -47,7 +47,6 @@ const Category = () => {
       {store.validate && <ModalValidation />}
       {store.error && <ModalError />}
       {store.success && <ToastSuccess />}
-      {/* <SpinnerWindow/> */}
       {store.isAdd && (
         <ModalAddCategory
           isCategoryEdit={isCategoryEdit}

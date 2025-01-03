@@ -27,7 +27,7 @@ const FoodTable = ({ setItemEdit }) => {
   const [isFilter, setIsFilter] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [statusFilter, setStatusFilter] = React.useState("");
-  const search = React.useRef({ value: ""});
+  const search = React.useRef({ value: "" });
   const [page, setPage] = React.useState(1);
   const { ref, inView } = useInView();
 
@@ -241,7 +241,7 @@ const FoodTable = ({ setItemEdit }) => {
       </div>
       {store.isDelete && (
         <ModalDelete
-        setIsDelete={setIsDelete}
+          setIsDelete={setIsDelete}
           mysqlApiDelete={`/v2/food/${id}`}
           queryKey="food"
         />
