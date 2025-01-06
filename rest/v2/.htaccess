@@ -23,7 +23,6 @@ RewriteRule ^developer/password$ controllers/developer/settings/user/developer/s
 RewriteRule ^developer/login$ controllers/developer/settings/user/developer/login.php [L]
 RewriteRule ^developer/token$ controllers/developer/settings/user/developer/token.php [L]
 RewriteRule ^developer/page/([0-9]+)$ controllers/developer/settings/user/developer/page.php?start=$1 [L]
-
 RewriteRule ^developer/search$ controllers/developer/settings/user/developer/search.php [L]
 
 RewriteRule ^advertisement$ controllers/advertisement/advertisement.php [L]

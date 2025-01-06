@@ -1,23 +1,21 @@
-import { HandPlatter, LayoutDashboard, Megaphone } from "lucide-react";
-import React from "react";
-import { FaChevronCircleRight, FaChevronRight, FaDev, FaUserCog, FaUsers, FaUsersCog } from "react-icons/fa";
+import { FaChevronRight, FaDev, FaUsers, FaUsersCog } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 const SettingsList = () => {
   const links = [
     {
       title: "Role",
-      slug: "/admin/settings/role",
+      slug: "/developer/settings/role",
       icon: <FaUsersCog size={16} />,
     },
     {
       title: "Developer",
-      slug: "/admin/settings/developer",
+      slug: "/developer/settings/developer",
       icon: <FaDev size={16} />,
     },
     {
       title: "User",
-      slug: "/admin/settings/user",
+      slug: "/developer/settings/user",
       icon: <FaUsers size={16} />,
     },
   ];

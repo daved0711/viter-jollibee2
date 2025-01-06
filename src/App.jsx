@@ -43,7 +43,7 @@ const App = () => {
               path="/developer/create-password"
               element={<DeveloperCreatePassword />}
             />
-            <Route path="/developer/login" element={<DeveloperLogin/>} />
+            <Route path="/developer/login" element={<DeveloperLogin />} />
 
             <Route path="/admin/login" element={<Login />} />
             <Route path="/admin/set-password" element={<SetPassword />} />

@@ -67,7 +67,7 @@ const ForgotPassword = () => {
 
                 <button className="btn btn-accent w-full center-all mt-5" onClick={() => setSuccess(true)}>Reset Password</button>
 
-                <Link to="/admin/login" className='text-sm text-center block mt-5 hover:text-accent flex justify-center gap-3 items-center' ><ArrowLeft/> Go Back To Login</Link>
+                <Link to="/admin/login" className='text-sm text-center mt-5 hover:text-accent flex justify-center gap-3 items-center' ><ArrowLeft/> Go Back To Login</Link>
                 </Form>
             );
           }}

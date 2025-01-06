@@ -1,9 +1,10 @@
 import React from "react";
 import { StoreContext } from "../store/storeContext";
 import { queryData } from "../helpers/queryData";
-import { checkLocalStorage } from "../helpers/checkLocalStorage";
+
 import { checkRoleToRedirect } from "../helpers/Login-Functions";
 import { setIsLogin } from "../store/storeAction";
+import { checkLocalStorage } from "../helpers/checkLocalStorage";
 
 const useDeveloperLogin = (navigate) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -16,7 +17,7 @@ const useDeveloperLogin = (navigate) => {
         token: checkLocalStorage().token,
       });
       if (typeof login === "undefined" || !login.success) {
-        localStorage.removeItem(" jollibeetoken");
+        checkLocalStorage.removeItem("jollibeetoken");
         setLoginLoading(false);
       } else {
         setLoginLoading(false);

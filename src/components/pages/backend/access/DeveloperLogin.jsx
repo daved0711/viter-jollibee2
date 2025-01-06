@@ -15,31 +15,18 @@ import {
   setIsCredentials,
   setIsLogin,
   setMessage,
-  setSuccess,
 } from "@/components/store/storeAction";
-import { checkRoleToRedirect } from "@/components/helpers/Login-Functions";
 import ButtonSpinner from "@/components/partials/spinner/ButtonSpinner";
 import { queryData } from "@/components/helpers/queryData";
 import FetchingSpinner from "@/components/partials/spinner/FetchingSpinner";
+import { checkRoleToRedirect } from "@/components/helpers/login-functions";
 import useDeveloperLogin from "@/components/custom-hook/useDeveloperLogin";
-
 const DeveloperLogin = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [theme, setTheme] = React.useState(localStorage.getItem("theme"));
   const [showPassword, setShowPassword] = React.useState(false);
   const navigate = useNavigate();
   const { loginLoading } = useDeveloperLogin(navigate);
-
-  React.useEffect(() => {
-    function setThemeColor() {
-      const html = document.querySelector("html");
-      html.setAttribute("class", "");
-      html.classList.add(theme);
-      setTheme(localStorage.getItem("theme"));
-    }
-
-    setThemeColor();
-  }, [theme]);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) => queryData("/v2/developer/login", "POST", values),
@@ -51,7 +38,7 @@ const DeveloperLogin = () => {
       if (!data.success) {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
-        dispatch(setSuccess(false));
+        // dispatch(setSuccess(false));
       } else {
         if (store.isLogin) {
           delete data.data[0].user_developer_password;
@@ -78,6 +65,15 @@ const DeveloperLogin = () => {
       .email("Invalid email"),
     password: Yup.string().required("Required"),
   });
+  React.useEffect(() => {
+    function setThemeColor() {
+      const html = document.querySelector("html");
+      html.setAttribute("class", "");
+      html.classList.add(theme);
+      setTheme(localStorage.getItem("theme"));
+    }
+    setThemeColor();
+  }, [theme]);
 
   return (
     <>
@@ -98,7 +94,7 @@ const DeveloperLogin = () => {
               validationSchema={yupSchema}
               onSubmit={async (values) => {
                 mutation.mutate(values);
-                console.log(values);
+                // console.log(values);
               }}
             >
               {(props) => {
@@ -122,7 +118,6 @@ const DeveloperLogin = () => {
                         disabled={mutation.isPending}
                         className="!py-2"
                       ></InputText>
-
                       <button
                         className="absolute bottom-2.5 right-2"
                         type="button"
@@ -143,7 +138,6 @@ const DeveloperLogin = () => {
                         Forgot Password?
                       </Link>
                     </p>
-
                     <button
                       type="submit"
                       className="btn btn-accent w-full center-all mt-5 "
@@ -154,7 +148,7 @@ const DeveloperLogin = () => {
 
                     <Link
                       to="/"
-                      className="text-sm text-center block mt-5 hover:text-accent flex justify-center gap-3 items-center"
+                      className="text-sm text-center  mt-5 hover:text-accent flex justify-center gap-3 items-center"
                     >
                       <ArrowLeft /> Go Back To Kiosk
                     </Link>
